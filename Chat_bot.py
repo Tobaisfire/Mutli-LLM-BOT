@@ -41,10 +41,10 @@ if selected_model == 'Gemini by Google':
     llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=st.secrets['gemini-api'])
 elif selected_model == 'Llama3 8B Parameter by Meta':
     HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
-    os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+  
     llm = HuggingFaceEndpoint(
                 endpoint_url=f"https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct",
-                max_new_tokens=512,
+                # max_new_tokens=512,
                 max_length=128,
                 temperature=0.01,
                 repetition_penalty=1.03,
@@ -77,10 +77,10 @@ if prompt := st.chat_input():
         response = conversation.predict(input=prompt)
         response = response.split("\n\n")[0]
     
-    def stream_data():
-        for word in response.split(" "):
-            yield word + " "
-            sleep(0.05)
+    # def stream_data():
+    #     for word in response.split(" "):
+    #         yield word + " "
+    #         sleep(0.05)
 
     st.session_state["messages"].append({"role": "assistant", "content": response})       
-    st.chat_message("assistant").write_stream(stream_data)
+    st.chat_message("assistant").write(response)
