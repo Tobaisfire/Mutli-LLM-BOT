@@ -73,9 +73,9 @@ prompt =st.chat_input()
 st.session_state["messages"].append({"role": "user", "content": prompt})
 st.chat_message("user").write(prompt)
 
-with st.spinner("Typing....."):
-    response = conversation.predict(input=prompt)
-    response = response.split("\n\n")[0]
+# with st.spinner("Typing....."):
+response = conversation.predict(input=prompt)
+response = response.split("\n\n")[0]
 
 # def stream_data():
 #     for word in response.split(" "):
