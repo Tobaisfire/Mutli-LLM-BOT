@@ -69,17 +69,18 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-prompt =st.chat_input()
-st.session_state["messages"].append({"role": "user", "content": prompt})
-st.chat_message("user").write(prompt)
+if prompt := st.chat_input():
+    st.session_state["messages"].append({"role": "user", "content": prompt})
+    st.chat_message("user").write(prompt)
+    
+    with st.spinner("Typing....."):
+        response = conversation.predict(input=prompt)
+        response = response.split("\n\n")[0]
+    
+    def stream_data():
+        for word in response.split(" "):
+            yield word + " "
+            sleep(0.05)
 
-# with st.spinner("Typing....."):
-response = conversation.predict(input=prompt)
-response = response.split("\n\n")[0]
-
-# def stream_data():
-#     for word in response.split(" "):
-#         yield word + " "
-#         sleep(0.05)
-st.session_state["messages"].append({"role": "assistant", "content": response})       
-st.chat_message("assistant").write(response)
+    st.session_state["messages"].append({"role": "assistant", "content": response})       
+    st.chat_message("assistant").write_stream(stream_data)
