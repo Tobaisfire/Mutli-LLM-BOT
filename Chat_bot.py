@@ -41,10 +41,8 @@ if selected_model == 'Gemini by Google':
     llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=st.secrets['gemini-api'])
 elif selected_model == 'Llama3 8B Parameter by Meta':
     HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
-  
     llm = HuggingFaceEndpoint(
                 endpoint_url=f"https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct",
-                # max_new_tokens=512,
                 max_length=128,
                 temperature=0.01,
                 repetition_penalty=1.03,
