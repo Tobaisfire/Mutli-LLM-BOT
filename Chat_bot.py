@@ -6,8 +6,7 @@ import os
 
 from langchain_community.llms import HuggingFaceEndpoint
 
-# result = llm.invoke("hi")
-# print(result.content)
+
 with st.sidebar:
 
     st.markdown("*Tobis* is **really** ***cool*** 🤩.")
@@ -57,6 +56,8 @@ with st.sidebar:
 
     st.success(f"Selected Model : {selected_model}")
 
+
+
   
 # Now we can override it and set it to "AI Assistant"
 from langchain_core.prompts.prompt import PromptTemplate
@@ -83,16 +84,6 @@ conversation = ConversationChain(
 
 
 st.title("💬 Chatbot")
-
-# with st.form("my_form"):
-#     title = st.text_input("Movie title", "Life of Brian")
-#     st.write("The current movie title is", title)
-
-#     submitted = st.form_submit_button("Submit")
-
-
-
-
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "Hello 😎 Let's start Talking !!. I am Tobis "}]
