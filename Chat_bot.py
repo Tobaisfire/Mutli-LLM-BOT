@@ -39,13 +39,8 @@ PROMPT = PromptTemplate(input_variables=["chat_history", "input"], template=temp
 # Define the conversation chain based on the selected model
 if selected_model == 'Gemini by Google':
 
-    repo_id = "describeai/gemini"  #ids
 
-    llm = HuggingFaceEndpoint(
-    repo_id=repo_id, max_length=128, temperature=0.5, token=st.secrets['hugging-api']
-    )
-
-
+    llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=st.secrets['gemini-api'])
     
 elif selected_model == 'Llama3 8B Parameter by Meta':
     HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
