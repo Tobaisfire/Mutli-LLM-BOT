@@ -3,7 +3,7 @@ import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from time import sleep
 import os
-import json
+
 from langchain_community.llms import HuggingFaceEndpoint
 
 # result = llm.invoke("hi")
@@ -26,20 +26,16 @@ with st.sidebar:
 
     if selected_model == 'Gemini by Google':
 
-        with open('apikey.json') as f:
-            data = json.load(f)
 
-        llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=data['gemini-api'])
+        llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=st.secrets['gemini-api'])
 
         st.session_state["messages"] = [{"role": "assistant", "content": "Hello 😎 Let's start Talking !!. I am Tobis "}]
 
     if selected_model == 'Llama3 8B Parameter by Meta':
 
-        with open('apikey.json') as f:
-            data = json.load(f)
-
+ 
         
-        HUGGINGFACEHUB_API_TOKEN = data['hugging-api']
+        HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
         os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
 
         print('Llama')

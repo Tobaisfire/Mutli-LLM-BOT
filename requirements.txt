@@ -1,0 +1,5 @@
+streamlit
+langchain_google_genai
+langchain_community
+langchain
+huggingface-hub==0.20.3
