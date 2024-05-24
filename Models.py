@@ -17,6 +17,12 @@ import streamlit as st
 HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
     
+def get_key():
+    HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
+    os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
+     
+    return HUGGINGFACEHUB_API_TOKEN
+
 def call_gemini():    
     llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=st.secrets['gemini-api'])
 
