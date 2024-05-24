@@ -23,7 +23,8 @@ def get_key():
      
     return HUGGINGFACEHUB_API_TOKEN
 
-def call_gemini():    
+def call_gemini():  
+    print("Gemini")  
     llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=st.secrets['gemini-api'])
 
     return llm

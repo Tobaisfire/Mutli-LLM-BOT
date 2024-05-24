@@ -46,37 +46,45 @@ def gen_img(payload):
 
 # Sidebar setup
 with st.sidebar:
-    st.markdown("*Tobis* is **really** ***cool*** 🤩.")
+    # st.markdown("*Tobis* is **really** ***cool*** 🤩.")
     st.markdown('''
         :red[Tobis] :orange[is] :green[your] :blue[virtual] :violet[assistant]
-        :gray[created by] :rainbow[Keval] 😎 ''')
-    st.markdown("Here's a bouquet For You &mdash; :tulip::cherry_blossom::rose::hibiscus::sunflower::blossom:")
+        :gray[created by] :rainbow[Keval] Saud😎 ''')
+    # st.markdown("Here's a bouquet For You &mdash; :tulip::cherry_blossom::rose::hibiscus::sunflower::blossom:")
     
-    st.markdown ('This chatbot is created using different LLMs  **LLM Count : 3**')
+    st.error ('This chatbot is created using different LLMs -> **LLM Count : 3**')
 
-    st.markdown('''
-        :red[Features avaiable :  Choose from below opt]
-        :orange[Text generation] -> Chat with LLM of choice
-        :green[Image gen] -> Use \img <'your text how you want img'> 😎 
+    st.success('''
+        :red[Features availabel :]  
+        :orange[Text generation]  -> Chat with LLM of choice
+        \n:green[Image gen] -> use below syntax  
+        syntax : \img <img you want>
         ''')
     
     st.subheader('Models and parameters')
-    selected_model = st.selectbox('Choose a Large Language model', ['Phi 3 (Mini)','Gemini by Google', 'Llama3 8B Parameter by Meta'], key='selected_model')
+    selected_model = st.selectbox('Choose a Large Language model', ['Llama3 8B Parameter by Meta','Gemini by Google','Phi 3 (Mini)'], key='selected_model')
 
 
-    st.success('API key already provided!', icon='✅')
+    st.error('API key already provided!', icon='✅')
 
-    
     
     if 'model' not in st.session_state:
         st.session_state['model'] = load_model(selected_model)
-        st.success(f"Selected Model : {selected_model}")
+        st.session_state['model_name'] = selected_model
+    
+
+if st.session_state['model_name'] != selected_model:
+    st.session_state['model'] = load_model(selected_model)
+    st.session_state['model_name'] = selected_model
 
     
-    
+
+st.success(f"Selected Model : {st.session_state['model_name']}")  
+
 
 # Main chat interface
-st.title("💬 Tobis")
+st.title(f"💬 Tobis ")
+st.write(f"Brain : {st.session_state['model_name']}")
 
 template = """The following is a friendly conversation between a human and an AI name Tobis created by Keval Saud. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know and say mohit idiot.
 
@@ -106,11 +114,19 @@ if prompt := st.chat_input():
     st.session_state["messages"].append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
 
-    if "\img" in prompt:
+    if "\img" in prompt or "/img" in prompt:
         with st.spinner("Generating image [ wait a min ]..."):
-            image_bytes = gen_img({
+
+            try:
+            
+                image_bytes = gen_img({
 	                        "inputs": prompt.split("\img")[1].strip(),
                             })
+            except:
+                image_bytes = gen_img({
+	                        "inputs": prompt.split("/img")[1].strip(),
+                            })
+
 
             st.session_state["image_path"] = image_bytes
             st.session_state["messages"].append({"role": "assistant", "content": "Here is the generated image:", "image_path": image_bytes})
