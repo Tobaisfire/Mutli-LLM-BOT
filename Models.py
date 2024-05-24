@@ -7,18 +7,18 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 
 from langchain_google_genai import ChatGoogleGenerativeAI
+import streamlit as st
 
 
 
+# with open('apikey.json') as f:
+#     data = json.load(f)
 
-with open('apikey.json') as f:
-    data = json.load(f)
-
-HUGGINGFACEHUB_API_TOKEN = data['hugging-api']
+HUGGINGFACEHUB_API_TOKEN = st.secrets['hugging-api']
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = HUGGINGFACEHUB_API_TOKEN
     
 def call_gemini():    
-    llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=data['gemini-api'])
+    llm = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=st.secrets['gemini-api'])
 
     return llm
 
